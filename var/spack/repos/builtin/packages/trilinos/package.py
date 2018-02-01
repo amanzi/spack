@@ -205,7 +205,7 @@ class Trilinos(CMakePackage):
 
     # MPI related dependencies
     depends_on('mpi')
-    depends_on('netcdf+mpi', when="~pnetcdf")
+    depends_on('netcdf+mpi maxdims=65536 maxvars=524288', when="~pnetcdf")
     depends_on('netcdf+mpi+parallel-netcdf', when="+pnetcdf@master,12.12.1:")
     depends_on('parmetis', when='+metis')
     depends_on('cgns', when='+cgns')
@@ -236,7 +236,9 @@ class Trilinos(CMakePackage):
     patch('umfpack_from_suitesparse.patch', when='@11.14.1:12.8.1')
     patch('xlf_seacas.patch', when='@12.10.1%xl')
     patch('xlf_seacas.patch', when='@12.10.1%xl_r')
-
+    patch('trilinos-ifpack-hypre.patch', when='@12.12.1')
+    patch('trilinos-ifpack-hypre2.patch', when='@12.12.1')
+    
     def url_for_version(self, version):
         url = "https://github.com/trilinos/Trilinos/archive/trilinos-release-{0}.tar.gz"
         return url.format(version.dashed)
